@@ -52,9 +52,13 @@ public class ExceptionHandling {
             System.out.println(st);
         }
 
+        // Java 7: The addition of the multi-catch feature allowed catching multiple exceptions in a single catch block, reducing redundancy in code.
+        sumOfArray(new int[]{1,2,3,4,5,6,293});
+        sumOfArray(null);
+
     }
 
-    public static void serializeObjects(Object[] obs) {
+    private static void serializeObjects(Object[] obs) {
 
         try (FileOutputStream fileOutputStream = new FileOutputStream("serialized.obj");
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
@@ -72,7 +76,7 @@ public class ExceptionHandling {
 
     }
 
-    protected static SerializationTest[] deserializeObjects(String fileName, int numberOfObjects) {
+    private static SerializationTest[] deserializeObjects(String fileName, int numberOfObjects) {
 
         SerializationTest[] deserializedObjects = new SerializationTest[numberOfObjects];
 
@@ -92,8 +96,24 @@ public class ExceptionHandling {
         }
 
         return deserializedObjects;
-
     }
+
+    private static int sumOfArray(int[] arr) {
+        try{
+            int sum = 0;
+            for (int i = 0; i < arr.length; i++) {
+                sum += arr[i];
+            }
+            //System.out.println(arr[arr.length]);
+            return sum;
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+            System.out.println("Exception Caught - " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
 }
 
 class SerializationTest implements Serializable {
