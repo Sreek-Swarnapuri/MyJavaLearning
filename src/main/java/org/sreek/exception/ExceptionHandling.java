@@ -48,7 +48,7 @@ public class ExceptionHandling {
 
         SerializationTest[] deserializationTests = deserializeObjects("serialized.obj", 2);
         System.out.println("Objects after deserialization:");
-        for (SerializationTest st: deserializationTests ) {
+        for (SerializationTest st : deserializationTests) {
             System.out.println(st);
         }
 
