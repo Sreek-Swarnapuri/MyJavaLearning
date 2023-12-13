@@ -6,9 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileIO {
-
-    public static void main(String[] args) {
-        File file = new File("test.txt");
+    
+    public void WriteToFile(String filePath) {
+        File file = new File(filePath);
         try (FileWriter fileWriter = new FileWriter(file); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
 
             bufferedWriter.write("First Line");
@@ -22,7 +22,5 @@ public class FileIO {
             e.printStackTrace();
         }
     }
-
-
 
 }
