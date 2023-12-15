@@ -60,11 +60,6 @@ public class SerializedClass implements Serializable {
 
     @Override
     public String toString() {
-        return "SerializedClass{" +
-                "value='" + value + '\'' +
-                ", number=" + number +
-                ", trueOrFalse=" + trueOrFalse +
-                ", subSerializedClass=" + subSerializedClass +
-                '}';
+        return "SerializedClass{" + "value='" + value + '\'' + ", number=" + number + ", trueOrFalse=" + trueOrFalse + ", subSerializedClass=" + subSerializedClass + '}';
     }
 }
