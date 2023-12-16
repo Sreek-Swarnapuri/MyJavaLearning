@@ -1,8 +1,13 @@
 package org.sreek.exception;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 
 public class ExceptionHandling {
+
+    private static final Logger logger = LogManager.getLogger(ExceptionHandling.class);
 
     public static void main(String[] args) {
 
@@ -11,67 +16,66 @@ public class ExceptionHandling {
         // General try catch block to show basic exception functionality
         // All Exception classes are subclasses of Throwable which has two methods - getMessage() & printStackTrace() that are inherited by all.
         try {
-            System.out.println("sum of 13422 and 22344 is " + Calculator.addTwoNumbers(13422, 22344));
-            System.out.println("sum of -22325 and 21233 is " + Calculator.addTwoNumbers(-22325, 21233));
+            logger.info("sum of 13422 and 22344 is " + Calculator.addTwoNumbers(13422, 22344));
+            logger.info("sum of -22325 and 21233 is " + Calculator.addTwoNumbers(-22325, 21233));
             // Code will not reach the statement below as the statement above throws an exception since negative numbers are not allowed in this addition
-            System.out.println("sum of 396574 and 15645 is " + Calculator.addTwoNumbers(396574, 15645));
+            logger.info("sum of 396574 and 15645 is " + Calculator.addTwoNumbers(396574, 15645));
         } catch (ArithmeticException e) {
-            System.out.println("Caught exception - " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Caught exception during addition - ", e);
         }
 
         // Finally block can be used to execute any code that needs be always executed
         try {
-            System.out.println("Divide 10 by 2 - " + Calculator.divide(10, 2));
+            logger.info("Divide 10 by 2 - " + Calculator.divide(10, 2));
         } catch (ArithmeticException e) {
-            System.out.println("Caught exception - " + e.getMessage());
+            logger.error("Caught exception during division - ", e);
         } finally {
-            System.out.println("In finally block without any exception");
+            logger.info("In finally block without any exception");
         }
 
         // Java 1.4: The introduction of chained exceptions (Throwable constructor that takes another Throwable as a parameter), enabling better exception wrapping and handling.
         try {
-            System.out.println("Divide 10 by 0 - " + Calculator.divide(10, 0));
+            logger.info("Divide 10 by 0 - " + Calculator.divide(10, 0));
         } catch (ArithmeticException e) {
-            System.out.println("Caught exception - " + e.getMessage());
+            logger.error("Caught exception during division - ", e);
             // Commenting below as it would break the code flow
             //throw new ArithmeticException("Cannot divide by Zero");
         } finally {
-            System.out.println("In finally block with an exception");
+            logger.info("In finally block with an exception");
         }
 
         // Java 5 (Java SE 5.0): This version brought significant enhancements with the introduction of the java.lang.Exception class and its subclasses, like RuntimeException.
         // Additionally, it introduced the try-with-resources statement, simplifying resource management by automatically closing resources like files, streams, etc., after they are no longer needed.
         // Try with resources
-        System.out.println("Objects before serialization:");
+        logger.info("Objects before serialization:");
         serializeObjects(new Object[]{new SerializationTest(), new SerializationTest(22, "Test22")});
 
         SerializationTest[] deserializationTests = deserializeObjects("serialized.obj", 2);
-        System.out.println("Objects after deserialization:");
+        logger.info("Objects after deserialization:");
         for (SerializationTest st : deserializationTests) {
-            System.out.println(st);
+            logger.info(st);
         }
 
         // Java 7: The addition of the multi-catch feature allowed catching multiple exceptions in a single catch block, reducing redundancy in code.
-        sumOfArray(new int[]{1,2,3,4,5,6,293});
+        int sum = sumOfArray(new int[]{1, 2, 3, 4, 5, 6, 293});
+        logger.info("Sum of numbers - 1, 2, 3, 4, 5, 6, 293 is " + sum);
         sumOfArray(null);
 
     }
 
     private static void serializeObjects(Object[] obs) {
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream("serialized.obj");
-             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream("serialized.obj"); ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
 
             for (Object object : obs) {
-                System.out.println(object);
+                logger.info(object);
                 objectOutputStream.writeObject(object);
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Caught FileNotFoundException in serializeObject - " + e.getMessage());
+            logger.error("Caught FileNotFoundException in serializeObject - ", e);
         } catch (IOException e) {
-            System.out.println("Caught IOException in serializeObject - " + e.getMessage());
+            logger.error("Caught IOException in serializeObject - ", e);
         }
 
     }
@@ -80,35 +84,33 @@ public class ExceptionHandling {
 
         SerializationTest[] deserializedObjects = new SerializationTest[numberOfObjects];
 
-        try (FileInputStream fileInputStream = new FileInputStream(fileName);
-             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+        try (FileInputStream fileInputStream = new FileInputStream(fileName); ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
 
             for (int i = 0; i < numberOfObjects; i++) {
                 deserializedObjects[i] = (SerializationTest) objectInputStream.readObject();
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Caught FileNotFoundException in serializeObject - " + e.getMessage());
+            logger.error("Caught FileNotFoundException in serializeObject - ", e);
         } catch (IOException e) {
-            System.out.println("Caught IOException in serializeObject - " + e.getMessage());
+            logger.error("Caught IOException in serializeObject - ", e);
         } catch (ClassNotFoundException e) {
-            System.out.println("Caught ClassNotFoundException in serializeObject - " + e.getMessage());
+            logger.error("Caught ClassNotFoundException in serializeObject - ", e);
         }
 
         return deserializedObjects;
     }
 
     private static int sumOfArray(int[] arr) {
-        try{
+        try {
             int sum = 0;
-            for (int i = 0; i < arr.length; i++) {
-                sum += arr[i];
+            for (int j : arr) {
+                sum += j;
             }
-            //System.out.println(arr[arr.length]);
+            //logger.info(arr[arr.length]);
             return sum;
         } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-            System.out.println("Exception Caught - " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Exception Caught during Array Sum - ", e);
         }
 
         return 0;
@@ -118,6 +120,7 @@ public class ExceptionHandling {
 
 class SerializationTest implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -8054334744134588496L;
 
     private int test = 10;
