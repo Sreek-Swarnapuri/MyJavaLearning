@@ -54,6 +54,14 @@ public class MainClass {
         System.out.println("this is " + bool1);
         System.out.println("this is " + bool2);
 
+        // Non primitive data types
+        Integer i = 100;
+        System.out.println(i);
+
+        Double d = 19.23;
+        System.out.println(d);
+
+
 
     }
 
