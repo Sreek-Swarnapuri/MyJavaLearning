@@ -44,8 +44,8 @@ public class MainClass {
         // -----------------------
 
         // 16-bit unicode character - char: 0 to 65,535
-        char c = 'a';
-        System.out.println("character is " + c);
+        char ch= 'a';
+        System.out.println("character is " + ch);
 
         // Represents one bit of information, can hold only two values: true or false
         boolean bool1 = true;
@@ -54,13 +54,35 @@ public class MainClass {
         System.out.println("this is " + bool1);
         System.out.println("this is " + bool2);
 
-        // Non primitive data types
+        // Non-primitive data types - Wrapper classes
+        // These are classes that encapsulate primitive data types, allowing them to be used as objects.
+        // Part of java.lang package
+        // primary purpose to convert primitive to objects and offer utility methods to perform operations on these values.
+        // These values are inititalized directly by using the corresponding primitive values or literals.
+
+        Byte b = 1;
+        System.out.println(b);
+
+        Short s =  234;
+        System.out.println(s);
+
         Integer i = 100;
         System.out.println(i);
+
+        Long l = 34434L;
+        System.out.println(l);
+
+        Float f = 123.23f;
+        System.out.println(f);
 
         Double d = 19.23;
         System.out.println(d);
 
+        Character c = 'C';
+        System.out.println(c);
+
+        Boolean bool = true;
+        System.out.println(bool);
 
 
     }
