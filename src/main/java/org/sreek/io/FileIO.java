@@ -1,8 +1,13 @@
 package org.sreek.io;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 
 public class FileIO {
+
+    private static final Logger logger = LogManager.getLogger(FileIO.class);
 
     public void writeToFile(String filePath) {
         File file = new File(filePath);
@@ -15,8 +20,7 @@ public class FileIO {
             bufferedWriter.write("Third Line");
 
         } catch (IOException e) {
-            System.out.println("IOException occurred while writing to file - " + e.getMessage());
-            e.printStackTrace();
+            logger.error("IOException occurred while writing to file - ", e);
         }
     }
 
@@ -33,12 +37,11 @@ public class FileIO {
                 stringBuffer.append(System.lineSeparator());
             }
 
-            System.out.println("Contents of the file are: ");
-            System.out.println(stringBuffer);
+            logger.info("Contents of the file are: ");
+            logger.info(stringBuffer);
 
         } catch (IOException e) {
-            System.out.println("IOException occurred while reading from file - " + e.getMessage());
-            e.printStackTrace();
+            logger.error("IOException occurred while reading from file - ", e);
         }
     }
 
